@@ -36,7 +36,7 @@ public class UsuarioController {
 
     }
 
-    @PutMapping("usuario/{id}")
+    @PutMapping("/usuario/{id}")
     public Usuario update(@PathVariable int id, @RequestBody Usuario usuario) {
 
         if(usuarioService.existsById(id)){
