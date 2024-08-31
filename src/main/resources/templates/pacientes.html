@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Pacientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Lista de Pacientes</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Número</th>
+            <th>Acciones</th> <!-- Nueva columna para los botones -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="paciente : ${pacientes}">
+            <td th:text="${paciente.idPaciente}"></td>
+            <td th:text="${paciente.nombre}"></td>
+            <td th:text="${paciente.apellido}"></td>
+            <td th:text="${paciente.numero}"></td>
+            <td>
+                <!-- Botón Editar -->
+                <a th:href="@{/paciente/editar/{id}(id=${paciente.idPaciente})}" class="btn btn-primary btn-sm">Editar</a>
+                <!-- Botón Eliminar -->
+                <a th:href="@{/paciente/eliminar/{id}(id=${paciente.idPaciente})}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
