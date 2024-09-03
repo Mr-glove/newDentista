@@ -12,7 +12,11 @@ public interface ICita{
 
     List<Cita> findAll();
 
+    List<Cita> findByEstado(String estado);
+
     void deleteById(int id);
 
     boolean existsById(int id);
+
+
 }

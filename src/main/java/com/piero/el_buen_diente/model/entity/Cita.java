@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -21,14 +24,17 @@ public class Cita implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idcita;
 
-    @Column(name = "id_paciente")
-    private int idPaciente;
+    @ManyToOne
+    @JoinColumn(name = "id_paciente", referencedColumnName = "idPaciente")
+    private Paciente paciente;
 
     @Column(name = "fecha")
-    private String fecha;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fecha;
 
     @Column(name = "hora")
-    private String hora;
+    @DateTimeFormat(pattern = "HH:mm")
+    private LocalTime hora;
 
     @Column(name = "motivo")
     private String motivo;

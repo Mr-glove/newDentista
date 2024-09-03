@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Crear Nuevo Paciente</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
+    <div th:replace="header :: copy"></div>
     <div class="container mt-5">
         <h2 class="mb-4">Crear Nuevo Paciente</h2>
         <form th:action="@{/paciente/nuevo}" th:object="${paciente}" method="post">

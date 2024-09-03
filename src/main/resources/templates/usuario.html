@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cita</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+<div th:replace="header :: copy"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Crear Nuevo Paciente</h2>
+    <form th:action="@{/usuario/nuevo}" th:object="${usuario}" method="post">
+        <div class="form-group">
+            <label for="usuario">Nuevo usuario:</label>
+            <input type="text" class="form-control" id="usuario" th:field="*{usuario}" required>
+        </div>
+        <div class="form-group">
+            <label for="apellido">Nueva contraseña:</label>
+            <input type="text" class="form-control" id="apellido" th:field="*{contraseña}" required>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
