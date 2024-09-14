@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface UsuarioDao extends CrudRepository<Usuario, Integer> {
 
-    Optional<Usuario> findByUsuario(String usuario);
+    Optional<Usuario> findByNombre(String usuario);
 }

@@ -38,42 +38,52 @@ public class WebControllerPaciente {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/prueba")
+    public String prueba(){
+        return "prueba";
+    }
+
     //Login
+
+    @GetMapping("/inicio")
+    public String inicio() {
+
+        return "inicio";
+    }
+
+
 
     @GetMapping("/login")
     public String Login(Model model){
-        /*Usuario usuario = new Usuario();
-        usuario.setUsuario("prueba1");
-        usuario.setContraseña("prueba2");
-        usuarioService.save(usuario);
-        logger.info(usuario.toString());*/
         return "login";
     }
 
     @GetMapping("/usuario")
     public String Usuario(Model model){
+        logger.info("pagina para crear nuevo usuario");
         model.addAttribute("usuario", new Usuario());
         return "usuario";
     }
-
     @PostMapping("/usuario/nuevo")
-    public String createUsuario(@ModelAttribute Usuario usuario){
-
-
-        return "/pacientes";
+    public String newUsuario(@ModelAttribute Usuario usuario) {
+        logger.info("CREANDO NUEVO USUARIO");
+        usuario.setIdUsuario(1);
+        usuarioService.save(usuario);
+        logger.info(usuario.toString());
+        return "inicio";
     }
-
-
 
 
     //Pacientes
 
+    // Redirigue para crear un paciente
     @GetMapping("/paciente/nuevo")
     public String preCreatePaciente(Model model) {
         model.addAttribute("paciente", new Paciente());
         return "new_paciente";
     }
 
+    // Crear paciente
     @PostMapping("/paciente/nuevo")
     public String createPaciente(@ModelAttribute Paciente paciente) {
         pacienteService.save(paciente);
@@ -81,6 +91,7 @@ public class WebControllerPaciente {
         return "redirect:/pacientes";
     }
 
+    // Redirigue para ver a los pacientes
     @GetMapping("/pacientes")
     public String readPacientes(Model model) {
         List<Paciente> pacientes = pacienteService.findAll();
@@ -88,7 +99,17 @@ public class WebControllerPaciente {
         return "pacientes";
     }
 
+    @GetMapping("/pacientes/nombre")
+    public String PacientesByNombre(@RequestParam(required = false) String nombre,
+                                    @RequestParam(required = false) String apellido,
+                                    Model model){
+        List<Paciente> pacientes = pacienteService.findPacienteNomApel(nombre, apellido);
+        model.addAttribute("pacientes", pacientes);
+        return "pacientes";
+    }
 
+
+    // Redirigue a la pagina para editar los paciente
     @GetMapping("/paciente/editar/{id}")
     public String updatePaciente(@PathVariable int id,Model model) {
         Paciente p = pacienteService.findById(id);
@@ -96,6 +117,7 @@ public class WebControllerPaciente {
         return "update_paciente";
     }
 
+    // Borrar Pacientes
     @GetMapping("/paciente/borrar/{id}")
     public String deletePaciente(@PathVariable int id, Model model) {
         pacienteService.deleteById(id);
@@ -105,6 +127,7 @@ public class WebControllerPaciente {
 
     //CITA
 
+    // redirigue para crear una cita ("new_cita")
     @GetMapping("/cita/nuevo")
     public String preCreateCita(Model model) {
 
@@ -117,6 +140,7 @@ public class WebControllerPaciente {
         return "new_cita";
     }
 
+    // Crea la cita y rediirgue a "/citas"
     @PostMapping("/cita/nuevo")
     public String createCita(@ModelAttribute Cita cita){
         logger.info(cita.toString());
@@ -124,19 +148,63 @@ public class WebControllerPaciente {
         return "redirect:/citas";
     }
 
-    @GetMapping("/citas")
-    public String readCita(Model model){
-        List<Cita> citas = citaService.findAll();
-        model.addAttribute("citas", citas);
-        return "citas";
-    }
 
+    // Redirigue para ver las "citas_pendientes"
     @GetMapping("/citas/pendientes")
     public String readCitasPendientes(Model model){
         List<Cita> citas = citaService.findByEstado("pendiente");
         model.addAttribute("citas", citas);
         return "citas_pendientes";
     }
+
+    //Redirigue para ver la pagina de "citas"
+    @GetMapping("/citas")
+    public String ordenarCitas(@RequestParam(name = "ordenar", required = false, defaultValue = "fecha") String ordenar,
+                               @RequestParam(name = "direccion", required = false, defaultValue = "desc") String direccion,
+                               Model model){
+
+        List<Cita> citas = citaService.findInicio(ordenar, direccion);
+
+
+        model.addAttribute("citas", citas);
+        model.addAttribute("ordenar", ordenar);
+        model.addAttribute("sortDir", direccion);
+
+        String nuevaDir = direccion.equals("asc") ? "desc" : "asc";
+        model.addAttribute("nuevaDir",nuevaDir);
+
+        return "citas";
+    }
+
+    @GetMapping("/citas/paciente/{id}")
+    public String buscarCitasPaciente(@PathVariable int id, Model model){
+        List<Cita> citas = citaService.findByPacienteIdPaciente(id);
+        model.addAttribute("citas", citas);
+        return "citas";
+
+    }
+
+    // Redirigue a la pagina "citas", pero usando los filtros
+    @GetMapping("/citas/buscar")
+    public String buscarCitas(
+                            @RequestParam(required = false) String nombre,
+                            @RequestParam(required = false) String apellido,
+                            @RequestParam(required = false) Integer mes,
+                            @RequestParam(required = false) Integer año,
+                            @RequestParam(required = false) String motivo,
+                            @RequestParam(required = false) String estado,
+                            @RequestParam(required = false) Double monto,
+                            Model model) {
+
+        List<Cita> citas = citaService.buscarCita(nombre, apellido, mes, año, motivo, estado, monto);
+        model.addAttribute("citas", citas);
+
+        return "citas";
+    }
+
+
+
+    // "cita -> cita Atendida"
     @GetMapping("/cita/atendido/{id}")
     public String citaToAtendido(@PathVariable int id, Model model){
         Cita cita = citaService.findById(id);
@@ -145,6 +213,16 @@ public class WebControllerPaciente {
         return "redirect:/citas/pendientes";
     }
 
+    // "cita -> No vino"
+    @GetMapping("/cita/novino/{id}")
+    public String citaToNoVino(@PathVariable int id, Model model){
+        Cita cita = citaService.findById(id);
+        cita.setEstado("No Vino");
+        citaService.save(cita);
+        return "redirect:/citas/pendientes";
+    }
+
+    // Redirigue para editar una cita
     @GetMapping("/cita/editar/{id}")
     public String updateCita(@PathVariable int id, Model model){
         Cita cita = citaService.findById(id);
@@ -152,6 +230,8 @@ public class WebControllerPaciente {
         return "update_cita";
     }
 
+
+    // Borrar la cita
     @GetMapping("/cita/borrar/{id}")
     public String deleteCita(@PathVariable int id){
         citaService.deleteById(id);

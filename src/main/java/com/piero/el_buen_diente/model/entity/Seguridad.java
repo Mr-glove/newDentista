@@ -31,12 +31,12 @@ public class Seguridad  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/resources/**", "/static/**").permitAll()
+                        .requestMatchers("/login", "/resources/**", "/css/**", "/js/**", "/img/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/citas", true)
+                        .defaultSuccessUrl("/inicio", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -59,15 +59,14 @@ public class Seguridad  {
 
         return username -> {
 
-            Usuario usuario = usuariodao.findByUsuario(username)
+            Usuario usuario = usuariodao.findByNombre(username)
                     .orElseThrow(() -> {
                         logger.error("Usuario no encontrado: " + username);
                        return new UsernameNotFoundException("Usuario no encontrado");
                     });
 
-            logger.info("Usuario encontrado: " + usuario.getUsuario());
             return new org.springframework.security.core.userdetails.User(
-                    usuario.getUsuario(),
+                    usuario.getNombre(),
                     usuario.getContraseña(),
                     Collections.emptyList()
             );

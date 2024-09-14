@@ -12,6 +12,9 @@ public interface IPaciente {
 
     List<Paciente> findAll();
 
+    List<Paciente> findPacienteNomApel(String nom, String apel);
+
+
     void deleteById(int id);
 
     boolean existsById(int id);

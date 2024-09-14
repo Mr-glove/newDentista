@@ -29,4 +29,7 @@ public class Paciente {
     @Column(name = "Numero")
     private String numero;
 
+    @Column(name = "extra")
+    private String extra;
+
 }

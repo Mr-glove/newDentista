@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class PacienteService implements IPaciente {
 
-    private Logger logger = LoggerFactory.getLogger(PacienteService.class);
+    private final Logger logger = LoggerFactory.getLogger(PacienteService.class);
 
     @Autowired
     private PacienteDao pacienteDao;
@@ -38,6 +38,22 @@ public class PacienteService implements IPaciente {
         return (List<Paciente>) pacienteDao.findAll();
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<Paciente> findPacienteNomApel(String nom, String apel) {
+
+        if(nom != null && !nom.isEmpty()){
+            logger.info("nombre");
+            return (List<Paciente>) pacienteDao.findByNombreStartingWithIgnoreCase(nom);
+        }
+        else{
+            logger.info("demas");
+            return (List<Paciente>) pacienteDao.findByApellidoStartingWithIgnoreCase(apel);
+        }
+
+    }
+
+
     @Transactional
     @Override
     public void deleteById(int id) {
@@ -49,4 +65,5 @@ public class PacienteService implements IPaciente {
     public boolean existsById(int id) {
         return pacienteDao.existsById(id);
     }
+
 }

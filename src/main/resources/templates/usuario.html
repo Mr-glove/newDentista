@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Cita</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/header.css">
 </head>
-<body>
+<style>.principal{background-color: powderblue;}</style>
+<body class="principal">
 <div th:replace="header :: copy"></div>
 <div class="container mt-5">
     <h2 class="mb-4">Crear Nuevo Paciente</h2>
     <form th:action="@{/usuario/nuevo}" th:object="${usuario}" method="post">
         <div class="form-group">
             <label for="usuario">Nuevo usuario:</label>
-            <input type="text" class="form-control" id="usuario" th:field="*{usuario}" required>
+            <input type="text" class="form-control" id="usuario" th:field="*{nombre}" required>
         </div>
         <div class="form-group">
-            <label for="apellido">Nueva contraseña:</label>
+            <label for="apellido">Nueva clave:</label>
             <input type="text" class="form-control" id="apellido" th:field="*{contraseña}" required>
         </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Usuario</button>
     </form>
 
 </div>

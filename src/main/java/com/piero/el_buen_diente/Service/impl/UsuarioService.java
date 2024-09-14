@@ -27,7 +27,7 @@ public class UsuarioService implements IUsuario {
     }
 
     public Optional<Usuario> findByUsuario(String usuario) {
-        return usuarioDao.findByUsuario(usuario);
+        return usuarioDao.findByNombre(usuario);
     }
 
 

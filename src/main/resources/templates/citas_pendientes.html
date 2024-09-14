@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Lista de Citas</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/header.css">
 </head>
-<body>
+<style>.principal{background-color: powderblue;}</style>
+<body class="principal">
 <div th:replace="header :: copy"></div>
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-item-center mb-4">
@@ -40,9 +41,10 @@
       <td th:text="${cita.nota}"></td>
       <td th:text="${cita.monto}"></td>
       <td>
-        <a th:href="@{/cita/atendido/{id}(id=${cita.idcita})}" class="btn btn-success btn-sm">Atendido</a>
-        <a th:href="@{/cita/editar/{id}(id=${cita.idcita})}" class="btn btn-primary btn-sm">Editar</a>
-        <a th:href="@{/cita/borrar/{id}(id=${cita.idcita})}" class="btn btn-danger btn-sm">Eliminar</a>
+        <a th:href="@{/cita/atendido/{id}(id=${cita.idcita})}" class="btn btn-success btn-sm"><img src="/img/Check.png" width="16" height="16"></a>
+        <a th:href="@{/cita/novino/{id}(id=${cita.idcita})}" class="btn btn-secondary btn-sm"><img src="/img/dont%20see.png" width="16" height="16"></a>
+        <a th:href="@{/cita/editar/{id}(id=${cita.idcita})}" class="btn btn-primary btn-sm"><img src="/img/update.png" width="16" height="16"></a>
+        <a th:href="@{/cita/borrar/{id}(id=${cita.idcita})}" class="btn btn-danger btn-sm"><img src="/img/delete.png" width="16" height="16"></a>
       </td>
     </tr>
     </tbody>

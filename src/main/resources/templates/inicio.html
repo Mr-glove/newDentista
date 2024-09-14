@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <style>
+        .jumbotron {
+            background-color: #f8f9fa;
+            padding: 2rem 1rem;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+        .feature-card img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 10px;
+        }
+        .feature-card h5 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+        /* Estilo para el enlace oculto */
+        .hidden-link {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .hidden-link:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="header :: copy"></div>
+
+<div class="container mt-5">
+    <!-- Bienvenida -->
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Bienvenido a El Buen Diente</h1>
+        <p class="lead">Sistema de gestión de citas y pacientes.</p>
+        <hr class="my-4">
+        <p>Gestiona fácilmente citas y pacientes desde un único lugar.</p>
+    </div>
+
+    <!-- Características principales -->
+    <div class="row text-center">
+        <!-- Pacientes -->
+        <div class="col-md-6">
+            <div class="card feature-card p-4">
+                <h5>Pacientes</h5>
+                <p>Gestiona y consulta la información de tus pacientes.</p>
+                <a href="/pacientes" class="btn btn-info">Ver Pacientes</a>
+            </div>
+        </div>
+        <!-- Citas -->
+        <div class="col-md-6">
+            <div class="card feature-card p-4">
+                <h5>Citas</h5>
+                <p>Consulta y organiza tus citas diarias fácilmente.</p>
+                <a href="/citas" class="btn btn-info">Ver Citas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enlace oculto para configurar usuarios -->
+<a href="/usuario" class="hidden-link">Usuario</a>
+
+<script src="/js/bootstrap.bundle.js"></script>
+<<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+
+</body>
+</html>
